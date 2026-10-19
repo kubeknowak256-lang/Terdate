@@ -1,0 +1,24 @@
+# Terdate - .gitattributes
+#
+# BRANCH main (this file):
+#   "Code -> Download ZIP" returns EVERYTHING, including addons/ and programs/.
+#   Nothing is marked export-ignore here on purpose.
+#
+# RELEASE TAGS:
+#   tools/release.sh creates a release commit whose .gitattributes adds
+#   export-ignore for addons/ and programs/, so the "Source code" ZIP of a
+#   release contains packages/ only.
+
+# Line endings: batch files must stay CRLF, shell scripts must stay LF
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.sh    text eol=lf
+*.asm   text eol=lf
+*.inc   text eol=lf
+*.md    text eol=lf
+*.txt   text eol=crlf
+
+# Binaries
+*.bin   binary
+*.img   binary
+*.zip   binary
