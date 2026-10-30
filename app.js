@@ -28,7 +28,9 @@ const translations = {
     download: "Download",
     features: "Features",
     plans: "Future plans",
-    system: "System & kernel"
+    system: "System & kernel",
+    learnMore: "Learn more",
+    open: "Open"
   },
   pl: {
     releaseLabel: "Najnowsza wersja",
@@ -40,7 +42,9 @@ const translations = {
     download: "Pobierz",
     features: "Funkcje",
     plans: "Plany na przyszłość",
-    system: "O systemie i jądrze"
+    system: "O systemie i jądrze",
+    learnMore: "Dowiedz się więcej",
+    open: "Otwórz"
   }
 };
 
@@ -112,6 +116,23 @@ function parseMarkdown(md) {
     .join("");
 }
 
+function getFallbackText(lang, key) {
+  const fallback = {
+    en: {
+      short: "<p>Terdate is a lightweight retro operating system centered on a custom 32-bit kernel and a minimal batch-style runtime.</p>",
+      info: "<p>Detailed system information is stored in the repository and will be displayed when the file is available.</p>",
+      plans: "<p>Roadmap data is maintained in the project and will be loaded automatically when the content files are present.</p>"
+    },
+    pl: {
+      short: "<p>Terdate to lekki retro system operacyjny oparty na własnym 32-bitowym jądrze i prostym środowisku skryptów wsadowych.</p>",
+      info: "<p>Szczegółowe informacje o systemie są przechowywane w repozytorium i zostaną załadowane, gdy pliki będą dostępne.</p>",
+      plans: "<p>Plan rozwoju jest utrzymywany w projekcie i zostanie załadowany automatycznie po pojawieniu się plików z treścią.</p>"
+    }
+  };
+
+  return fallback[lang]?.[key] || fallback.en[key];
+}
+
 async function fetchText(url) {
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`Failed to load ${url}`);
@@ -132,12 +153,9 @@ async function loadTextFiles(lang = state.language) {
     systemInfo.innerHTML = parseMarkdown(infoText);
     plansContent.innerHTML = parseMarkdown(plansText);
   } catch (error) {
-    shortSummary.innerHTML =
-      "<p>Terdate is a lightweight retro operating system centered on a custom 32-bit kernel and a minimal batch-style runtime.</p>";
-    systemInfo.innerHTML =
-      "<p>Detailed system information is stored in the repository and will be displayed when the file is available.</p>";
-    plansContent.innerHTML =
-      "<p>Roadmap data is maintained in the project and will be loaded automatically when the content files are present.</p>";
+    shortSummary.innerHTML = getFallbackText(lang, "short");
+    systemInfo.innerHTML = getFallbackText(lang, "info");
+    plansContent.innerHTML = getFallbackText(lang, "plans");
   }
 }
 
@@ -172,6 +190,11 @@ function updateLanguageLabels() {
   const allVersionsHeading = document.querySelector(".all-releases h3");
   if (allVersionsHeading) {
     allVersionsHeading.textContent = isEn ? "All versions" : "Wszystkie wersje";
+  }
+
+  const learnMore = document.querySelector(".btn-secondary");
+  if (learnMore) {
+    learnMore.textContent = isEn ? translations.en.learnMore : translations.pl.learnMore;
   }
 }
 
@@ -230,7 +253,7 @@ function renderReleaseList(releases) {
 
     item.innerHTML = `
       <span>${escapeHtml(tag)}</span>
-      <a href="${release.html_url}" target="_blank" rel="noreferrer">Open</a>
+      <a href="${release.html_url}" target="_blank" rel="noreferrer">${translations[state.language].open}</a>
     `;
     releaseList.appendChild(item);
   });
@@ -310,7 +333,7 @@ async function loadSystemFallback(lang = state.language) {
       const li = document.createElement("li");
       li.innerHTML = `
         <span>${escapeHtml(entry.name)}</span>
-        <a href="${entry.url}" target="_blank" rel="noreferrer">Open</a>
+        <a href="${entry.url}" target="_blank" rel="noreferrer">${translations[state.language].open}</a>
       `;
       releaseList.appendChild(li);
     });
@@ -338,11 +361,11 @@ navButtons.forEach((button) => {
   });
 });
 
-langToggle.addEventListener("click", () => {
+langToggle.addEventListener("click", async () => {
   state.language = state.language === "en" ? "pl" : "en";
   updateLanguageLabels();
-  loadTextFiles(state.language);
-  loadReleaseData(state.language);
+  await loadTextFiles(state.language);
+  await loadReleaseData(state.language);
 });
 
 (async function init() {
