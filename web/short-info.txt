@@ -1,0 +1,12 @@
+# Terdate
+
+Terdate is a lightweight, retro-styled operating system centered on a custom 32-bit kernel called Terdate TB. The project is intentionally small, understandable, and experimental. It is built around bootloader logic, protected mode initialization, a batch-style runtime, and an OS-like workflow designed for learning and experimentation.
+
+## Goals
+- Keep the system easy to understand and modify
+- Focus on minimal bootable OS mechanics
+- Build a simple interactive environment with batch scripts
+- Explore kernel, bootloader, and shell concepts in a compact project
+
+## Current state
+The project is still in early development and is best understood as a learning-oriented operating system experiment rather than a full modern desktop environment.

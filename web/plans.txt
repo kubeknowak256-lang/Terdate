@@ -1,0 +1,21 @@
+# Future plans
+
+This file is intended as a living roadmap for Terdate.
+
+## Short term
+- improve runtime stability
+- improve build and run scripts
+- document key boot steps more clearly
+- add better release packaging and version summaries
+
+## Medium term
+- expand command support in the batch interpreter
+- improve the virtual filesystem model
+- add more system utilities and user-facing scripts
+- improve onboarding for new contributors
+
+## Long term
+- create a more coherent and stable kernel runtime
+- continue exploring minimal OS design
+- support a richer command environment
+- keep the project lightweight and understandable

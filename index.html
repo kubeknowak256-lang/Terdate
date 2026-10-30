@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Terdate is a lightweight retro-styled operating system project built around a custom 32-bit kernel and batch-driven runtime."
+    />
+    <title>Terdate | Lightweight retro OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-badge">T</div>
+        <div class="brand-text">
+          <span class="brand-name">Terdate</span>
+          <span class="brand-subtitle">TB kernel</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-target="home" type="button">Home</button>
+        <button class="nav-btn" data-target="download" type="button">Download</button>
+        <button class="nav-btn" data-target="features" type="button">Features</button>
+        <button class="nav-btn" data-target="plans" type="button">Future plans</button>
+        <button class="nav-btn" data-target="system" type="button">System &amp; kernel</button>
+      </nav>
+
+      <button id="langToggle" class="lang-toggle" type="button" aria-label="Switch language">
+        🇺🇸
+      </button>
+    </header>
+
+    <main class="page-shell">
+      <section id="home" class="panel active">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Early development • QEMU tested</span>
+            <h1>Terdate</h1>
+
+            <div id="shortSummary" class="lead"></div>
+
+            <div class="cta-row">
+              <a href="#download" class="btn btn-primary">Download</a>
+              <a href="#system" class="btn btn-secondary">Learn more</a>
+            </div>
+
+            <div class="hero-metrics">
+              <div class="metric-card">
+                <span class="metric-label">Kernel</span>
+                <strong>Terdate TB</strong>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Mode</span>
+                <strong>32-bit</strong>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Runtime</span>
+                <strong>Batch shell</strong>
+              </div>
+            </div>
+          </div>
+
+          <aside class="info-card">
+            <h3>Quick facts</h3>
+            <ul>
+              <li>Custom 32-bit bootloader</li>
+              <li>Minimal kernel and runtime model</li>
+              <li>Bootable in QEMU</li>
+              <li>Built for experimentation and learning</li>
+              <li>Simple batch-driven interface</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="download" class="panel">
+        <div class="section-head">
+          <h2>Download</h2>
+        </div>
+
+        <article id="latestRelease" class="release-card"></article>
+
+        <div class="all-releases">
+          <h3>All versions</h3>
+          <ul id="releaseList" class="release-list"></ul>
+        </div>
+      </section>
+
+      <section id="features" class="panel">
+        <div class="section-head">
+          <h2>Features</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="icon">⚙️</div>
+            <h3>Bootloader</h3>
+            <p>
+              Small bios-driven boot process with loader handoff and protected mode
+              initialization.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="icon">⌨️</div>
+            <h3>Keyboard &amp; console</h3>
+            <p>
+              VGA-based text mode, keyboard input, and terminal interaction built for
+              minimal OS workflow.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="icon">📁</div>
+            <h3>File flow</h3>
+            <p>
+              A simple filesystem model and batch script workflow designed to be easy to
+              inspect and extend.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>Learning-oriented</h3>
+            <p>
+              The project is ideal for teaching the basics of OS booting, runtime setup,
+              command parsing and memory layout.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="plans" class="panel">
+        <div class="section-head">
+          <h2>Future plans</h2>
+        </div>
+
+        <div id="plansContent" class="markdown-block"></div>
+      </section>
+
+      <section id="system" class="panel">
+        <div class="section-head">
+          <h2>System and kernel</h2>
+        </div>
+
+        <div class="system-layout">
+          <article id="systemInfo" class="markdown-block large"></article>
+
+          <aside class="mini-panel">
+            <h3>Project structure</h3>
+            <ul class="structure-list">
+              <li><strong>kernel/</strong> — low-level kernel and assembly sources</li>
+              <li><strong>system/</strong> — runtime versions and bootable builds</li>
+              <li><strong>BUILDING.md</strong> — build instructions</li>
+              <li><strong>CHANGELOG.md</strong> — version history</li>
+              <li><strong>LICENSE</strong> — Apache 2.0</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Terdate • lightweight retro OS • bootable kernel experiments</p>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

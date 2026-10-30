@@ -1,0 +1,20 @@
+# System and kernel
+
+Terdate combines a custom bootable kernel written in NASM assembly with a batch-driven runtime environment. The repository is divided into low-level kernel sources and runtime system files used to operate an emulator-based system.
+
+## Boot flow
+1. BIOS loads the boot sector.
+2. The boot sector reads the loader image.
+3. The loader switches into protected mode.
+4. The runtime initializes memory, VGA, keyboard, and the environment.
+5. A startup batch file such as `syson.bat` launches the shell.
+
+## Main components
+- `kernel/` — low-level assembly sources and bootloader code
+- `system/` — runtime builds, scripts, and bootable versions
+- `BUILDING.md` — build instructions
+- `CHANGELOG.md` — version history
+- `LICENSE` — Apache 2.0 license
+
+## Project focus
+Terdate is designed to be a simple, educational operating system project useful for experimentation with bootstrapping, protected mode, memory layout, command execution, and batch-oriented workflows.
