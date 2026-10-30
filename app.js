@@ -3,10 +3,18 @@ const REPO_NAME = "Terdate";
 const RELEASES_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`;
 
 const TEXT_FILES = {
-  short: "./web/short-info.txt",
-  info: "./web/info.txt",
-  plans: "./web/plans.txt",
-  systems: "./web/systems.txt"
+  en: {
+    short: "./web/short-info.txt",
+    info: "./web/info.txt",
+    plans: "./web/plans.txt",
+    systems: "./web/systems.txt"
+  },
+  pl: {
+    short: "./web/short-info_PL.txt",
+    info: "./web/info_PL.txt",
+    plans: "./web/plans_PL.txt",
+    systems: "./web/systems_PL.txt"
+  }
 };
 
 const translations = {
@@ -110,12 +118,14 @@ async function fetchText(url) {
   return response.text();
 }
 
-async function loadTextFiles() {
+async function loadTextFiles(lang = state.language) {
+  const currentFiles = TEXT_FILES[lang] || TEXT_FILES.en;
+
   try {
     const [shortText, infoText, plansText] = await Promise.all([
-      fetchText(TEXT_FILES.short),
-      fetchText(TEXT_FILES.info),
-      fetchText(TEXT_FILES.plans)
+      fetchText(currentFiles.short),
+      fetchText(currentFiles.info),
+      fetchText(currentFiles.plans)
     ]);
 
     shortSummary.innerHTML = parseMarkdown(shortText);
@@ -274,9 +284,11 @@ function parseSystemsFallback(text) {
     .sort((a, b) => a.order - b.order);
 }
 
-async function loadSystemFallback() {
+async function loadSystemFallback(lang = state.language) {
+  const currentFiles = TEXT_FILES[lang] || TEXT_FILES.en;
+
   try {
-    const text = await fetchText(TEXT_FILES.systems);
+    const text = await fetchText(currentFiles.systems);
     const entries = parseSystemsFallback(text);
 
     if (!entries.length) {
@@ -309,11 +321,11 @@ async function loadSystemFallback() {
   }
 }
 
-async function loadReleaseData() {
+async function loadReleaseData(lang = state.language) {
   const githubWorked = await loadReleasesFromGithub();
   if (githubWorked) return;
 
-  const fallbackWorked = await loadSystemFallback();
+  const fallbackWorked = await loadSystemFallback(lang);
   if (!fallbackWorked) {
     latestRelease.innerHTML = `<div class="badge">${translations[state.language].noRelease}</div>`;
     releaseList.innerHTML = `<li>${translations[state.language].noRelease}</li>`;
@@ -329,12 +341,13 @@ navButtons.forEach((button) => {
 langToggle.addEventListener("click", () => {
   state.language = state.language === "en" ? "pl" : "en";
   updateLanguageLabels();
-  loadReleaseData();
+  loadTextFiles(state.language);
+  loadReleaseData(state.language);
 });
 
 (async function init() {
   setActiveSection("home");
   updateLanguageLabels();
-  await loadTextFiles();
-  await loadReleaseData();
+  await loadTextFiles(state.language);
+  await loadReleaseData(state.language);
 })();

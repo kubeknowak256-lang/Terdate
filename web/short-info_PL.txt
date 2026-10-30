@@ -1,0 +1,12 @@
+# Terdate
+
+Terdate to lekki, retro-stylowy system operacyjny oparty na własnym, 32-bitowym jądrze Terdate TB. Projekt jest celowo mały, czytelny i eksperymentalny. Zbudowany jest wokół logiki bootloadera, inicjalizacji trybu chronionego, środowiska uruchomieniowego w stylu batch oraz pracy w stylu systemu operacyjnego, przeznaczonego do nauki i eksperymentów.
+
+## Cele
+- utrzymywanie prostoty i łatwości modyfikacji
+- skupienie się na minimalnych mechanizmach bootowalnego systemu
+- budowa prostego środowiska interaktywnego z wykorzystaniem skryptów wsadowych
+- eksperymentowanie z jądrem, bootloaderem i interpreterm poleceń w małym projekcie
+
+## Aktualny stan
+Projekt jest nadal na wczesnym etapie rozwoju i najlepiej traktować go jako edukacyjny eksperyment z systemem operacyjnym, a nie jako pełny, nowoczesny system desktopowy.

@@ -1,0 +1,20 @@
+# System i jądro
+
+Terdate łączy w sobie własne, bootowalne jądro napisane w asemblerze NASM z runtime środowiskiem opartym na skryptach wsadowych. Repozytorium dzieli się na niskopoziomowe źródła jądra oraz pliki runtime wykorzystywane do działania systemu w emulatorze.
+
+## Przepływ rozruchu
+1. BIOS ładuje sektor startowy.
+2. Sektor startowy odczytuje obraz loadera.
+3. Loader przełącza system do trybu chronionego.
+4. Środowisko runtime inicjalizuje pamięć, VGA, klawiaturę i ustawienia środowiska.
+5. Skrypt startowy, np. `syson.bat`, uruchamia powłokę systemu.
+
+## Główne komponenty
+- `kernel/` — niskopoziomowe źródła asemblerowe i kod bootloadera
+- `system/` — wersje runtime, skrypty i bootowalne buildy
+- `BUILDING.md` — instrukcje kompilacji
+- `CHANGELOG.md` — historia wersji
+- `LICENSE` — licencja Apache 2.0
+
+## Główny cel projektu
+Terdate ma być prostym, edukacyjnym projektem systemu operacyjnego do eksperymentów z bootowaniem, trybem chronionym, układem pamięci, wykonywaniem poleceń oraz środowiskiem opartym na skryptach wsadowych.

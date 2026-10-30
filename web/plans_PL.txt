@@ -1,0 +1,21 @@
+# Plany na przyszłość
+
+Ten plik jest przeznaczony jako żywy plan rozwoju Terdate.
+
+## Krótki termin
+- poprawa stabilności runtime
+- ulepszenie skryptów budujących i uruchamiających
+- lepsza dokumentacja kluczowych etapów uruchamiania
+- lepsze pakowanie wydań i opisy wersji
+
+## Średni termin
+- rozszerzenie wsparcia poleceń w interpreterze batch
+- poprawa modelu wirtualnego systemu plików
+- dodanie więcej narzędzi systemowych i skryptów użytkowych
+- uproszczenie onboardingu dla nowych współtwórców
+
+## Długi termin
+- stworzenie bardziej spójnego i stabilnego runtime jądra
+- dalsze badanie minimalnego projektu systemu operacyjnego
+- wsparcie bardziej rozbudowanego środowiska poleceń
+- utrzymanie projektu lekkiego, czytelnego i łatwego do rozwijania
