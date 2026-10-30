@@ -8,6 +8,18 @@ system/rd/*/system/temp/cd.txt
 system/alpha/**/system/temp/log.txt
 system/alpha/**/system/temp/cd.txt
 
+# Website / static site files
+# Keep generated GitHub Pages output separate from source files.
+_site/
+.github/pages/
+
+# Project website source files (if you want them ignored in the repo)
+# Uncomment if you want to keep the website source out of source control:
+# app.js
+# styles.css
+# index.html
+# web/
+
 # Build output
 *.o
 *.lst
