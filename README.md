@@ -1,59 +1,118 @@
 # Terdate
 
-**A lightweight, retro-styled system that is free and easy to modify.**
+Terdate is a lightweight, retro-styled operating system built around a custom 32-bit kernel: the Terdate TB kernel.
 
-Terdate is built on its own kernel, currently the 32-bit **Terdate TB** kernel. You can modify and redistribute it freely, as long as you comply with the [Apache License 2.0](LICENSE).
+The project is designed to be easy to inspect, modify, and redistribute. It focuses on simplicity, compatibility with classic system workflows, and a minimal bootable environment suitable for experimentation and learning.
 
-> **Status:** early development. Tested in QEMU, not yet on real hardware.
+> Status: early development
+>
+> The system has been tested in QEMU and is not yet validated on physical hardware.
 
-## Versions
+## Overview
 
-| Folder | What it is | How to run |
-|--------|------------|------------|
-| `system/rd/rd131026a` | `rd` build from 13 Oct 2026, the first version (Windows batch) | double-click `syson.bat` |
-| `system/rd/rd141026fa` | `rd` build from 14 Oct 2026: logging, `tree`, `print`, case-insensitive commands | double-click `syson.bat` |
-| `system/alpha/pre-alpha001r` | pre-alpha: bootable 32-bit system with a ready-to-boot disk image | boot the `.img` in QEMU |
-| `kernel/tb/tb 01b` | Terdate TB kernel source code (NASM) | see [docs/BUILDING.md](docs/BUILDING.md) |
+Terdate combines:
 
-`rd` builds are named `rd` + date (`DDMMYY`) + a letter suffix.
+- a custom bootable kernel written in NASM assembly
+- a small command-oriented runtime environment
+- a batch-driven user interface for experimentation
+- a simple file-system and OS-style workflow
+
+The repository currently contains:
+
+- `kernel/` — kernel source and related assembly files
+- `system/` — runtime builds and bootable system variants
+- `BUILDING.md` — build instructions and usage tips
+- `CHANGELOG.md` — version history
+- `LICENSE` — Apache License 2.0
 
 ## Quick start
 
-### Boot the system (QEMU)
+### Run the bootable pre-alpha build
 
-Install [QEMU](https://www.qemu.org/download/) and run:
+1. Install QEMU.
+2. Open the folder containing the pre-alpha disk image.
+3. Run:
 
-```
+```bash
 qemu-system-i386 -drive format=raw,file=terdate_pre-alpha001r_qemu-boot-x32.img,if=floppy -boot a -m 64
 ```
 
-(from the folder `system/alpha/pre-alpha001r`). Requirements: 8 MB of RAM or more, VGA text mode, a PS/2 (or emulated) keyboard.
+This is the simplest way to boot the system in an emulator and test the current build.
 
-### Run the `rd` versions (Windows)
+### Run the `rd` build on Windows
 
-1. Open the version folder, e.g. `system/rd/rd141026fa`.
+1. Open a version folder such as `system/rd/rd141026fa`.
 2. Double-click `syson.bat`.
-3. When asked `[y/n]`, type `n` and press Enter.
+3. When prompted with `[y/n]`, choose `n`.
 
-A terminal opens with *"Welcome to Terdate Operating System"*. Type `program` or `programl` to see the available programs.
+This launches the batch-based runtime environment.
 
 ## Build from source
 
-You need NASM and QEMU. Full instructions: [docs/BUILDING.md](docs/BUILDING.md).
+For full instructions, see [BUILDING.md](BUILDING.md).
+
+The build process requires:
+
+- NASM
+- QEMU
+
+Example:
+
+```bash
+nasm -f bin boot.asm -o boot.bin
+nasm -f bin load.asm -o load.bin
+nasm -f bin image.asm -o terdate.img
+```
 
 ## Repository layout
 
+```text
+.
+├── BUILDING.md
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── kernel/
+│   └── tb/
+├── system/
+│   ├── alpha/
+│   └── rd/
+└── .gitignore
 ```
-kernel/
-   tb/        Terdate TB kernel sources
-system/
-   rd/        rd versions (Windows batch)
-   alpha/     alpha versions (bootable)
-docs/         build guide
-CHANGELOG.md  what changed in each version
-LICENSE       Apache License 2.0
-```
+
+## Versions
+
+| Folder | Description | Typical usage |
+|--------|-------------|---------------|
+| `system/rd/rd131026a` | First `rd` build from 13 Oct 2026 | Start via `syson.bat` |
+| `system/rd/rd141026fa` | Improved `rd` build with logging and extended commands | Start via `syson.bat` |
+| `system/alpha/pre-alpha001r` | Pre-alpha bootable disk image | Boot with QEMU |
+| `kernel/tb/tb 01b` | Terdate TB kernel source code | Build and inspect the kernel |
+
+## Contributing
+
+Contributions are welcome.
+
+For a clean development workflow:
+
+- keep changes focused and well-documented
+- build the project before submitting changes
+- document any new commands, features, or build steps
+- prefer readable assembly and scripts with clear structure
+
+Please also see [BUILDING.md](BUILDING.md) for build- and run-related guidance.
 
 ## License
 
-Apache License 2.0, see [LICENSE](LICENSE). If you modify or redistribute Terdate, you must comply with it.
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+## Project goals
+
+Terdate is intended to be:
+
+- easy to understand and modify
+- lightweight and minimal
+- suitable for experimentation with OS/kernel concepts
+- accessible for educational and hobbyist use
+
+If you want to extend the system, improve the runtime, or clean up the build workflow, this repository is set up to support that kind of iterative development.
