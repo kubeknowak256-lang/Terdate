@@ -30,7 +30,8 @@ const translations = {
     plans: "Future plans",
     system: "System & kernel",
     learnMore: "Learn more",
-    open: "Open"
+    open: "Open",
+    releasePage: "Release page"
   },
   pl: {
     releaseLabel: "Najnowsza wersja",
@@ -44,7 +45,8 @@ const translations = {
     plans: "Plany na przyszłość",
     system: "O systemie i jądrze",
     learnMore: "Dowiedz się więcej",
-    open: "Otwórz"
+    open: "Otwórz",
+    releasePage: "Strona wydania"
   }
 };
 
@@ -210,6 +212,15 @@ function setActiveSection(target) {
   });
 }
 
+function getReleaseAssetUrl(release) {
+  if (!release || !Array.isArray(release.assets) || !release.assets.length) {
+    return release?.html_url || "#";
+  }
+
+  const directAsset = release.assets.find((asset) => asset && asset.browser_download_url);
+  return directAsset?.browser_download_url || release.html_url || "#";
+}
+
 function renderLatestRelease(release) {
   if (!release) {
     latestRelease.innerHTML = `<div class="badge">${translations[state.language].noRelease}</div>`;
@@ -218,23 +229,20 @@ function renderLatestRelease(release) {
 
   const tag = release.tag_name || release.name || "Release";
   const body = (release.body || "No description provided.").replace(/\r/g, "").trim();
-  const asset = release.assets && release.assets.length ? release.assets[0] : null;
+  const directAssetUrl = getReleaseAssetUrl(release);
+  const hasDirectAsset = Boolean(release.assets && release.assets.length && directAssetUrl && directAssetUrl !== release.html_url);
 
   latestRelease.innerHTML = `
     <div class="badge">${translations[state.language].releaseLabel}</div>
     <h3>${escapeHtml(release.name || tag)}</h3>
     <p>${escapeHtml(body)}</p>
     <div class="release-actions">
-      <a href="${release.html_url}" class="btn btn-primary" target="_blank" rel="noreferrer">
-        ${translations[state.language].viewRelease}
+      <a href="${directAssetUrl}" class="btn btn-primary" target="_blank" rel="noreferrer">
+        ${hasDirectAsset ? translations[state.language].downloadAsset : translations[state.language].viewRelease}
       </a>
-      ${
-        asset
-          ? `<a href="${asset.browser_download_url}" class="btn btn-secondary" target="_blank" rel="noreferrer">
-              ${translations[state.language].downloadAsset}
-            </a>`
-          : ""
-      }
+      <a href="${release.html_url}" class="btn btn-secondary" target="_blank" rel="noreferrer">
+        ${translations[state.language].releasePage}
+      </a>
     </div>
   `;
 }
@@ -250,10 +258,12 @@ function renderReleaseList(releases) {
   releases.forEach((release) => {
     const item = document.createElement("li");
     const tag = release.tag_name || release.name || "Release";
+    const directAssetUrl = getReleaseAssetUrl(release);
+    const hasDirectAsset = Boolean(release.assets && release.assets.length && directAssetUrl && directAssetUrl !== release.html_url);
 
     item.innerHTML = `
       <span>${escapeHtml(tag)}</span>
-      <a href="${release.html_url}" target="_blank" rel="noreferrer">${translations[state.language].open}</a>
+      <a href="${directAssetUrl}" target="_blank" rel="noreferrer">${hasDirectAsset ? translations[state.language].downloadAsset : translations[state.language].open}</a>
     `;
     releaseList.appendChild(item);
   });
