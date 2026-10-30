@@ -221,6 +221,16 @@ function getReleaseAssetUrl(release) {
   return directAsset?.browser_download_url || release.html_url || "#";
 }
 
+function sortReleasesChronologically(releases) {
+  if (!Array.isArray(releases)) return [];
+
+  return [...releases].sort((a, b) => {
+    const aDate = a?.created_at ? new Date(a.created_at).getTime() : 0;
+    const bDate = b?.created_at ? new Date(b.created_at).getTime() : 0;
+    return aDate - bDate;
+  });
+}
+
 function renderLatestRelease(release) {
   if (!release) {
     latestRelease.innerHTML = `<div class="badge">${translations[state.language].noRelease}</div>`;
@@ -255,7 +265,9 @@ function renderReleaseList(releases) {
     return;
   }
 
-  releases.forEach((release) => {
+  const ordered = sortReleasesChronologically(releases);
+
+  ordered.forEach((release) => {
     const item = document.createElement("li");
     const tag = release.tag_name || release.name || "Release";
     const directAssetUrl = getReleaseAssetUrl(release);
@@ -263,7 +275,7 @@ function renderReleaseList(releases) {
 
     item.innerHTML = `
       <span>${escapeHtml(tag)}</span>
-      <a href="${directAssetUrl}" target="_blank" rel="noreferrer">${hasDirectAsset ? translations[state.language].downloadAsset : translations[state.language].open}</a>
+      <a href="${release.html_url}" target="_blank" rel="noreferrer">${hasDirectAsset ? translations[state.language].downloadAsset : translations[state.language].open}</a>
     `;
     releaseList.appendChild(item);
   });
@@ -285,8 +297,9 @@ async function loadReleasesFromGithub() {
 
     if (!valid.length) return false;
 
-    renderLatestRelease(valid[0]);
-    renderReleaseList(valid);
+    const ordered = sortReleasesChronologically(valid);
+    renderLatestRelease(ordered[ordered.length - 1]);
+    renderReleaseList(ordered);
     return true;
   } catch (error) {
     return false;
@@ -328,7 +341,7 @@ async function loadSystemFallback(lang = state.language) {
       return false;
     }
 
-    const latest = entries[0];
+    const latest = entries[entries.length - 1];
 
     renderLatestRelease({
       name: latest.name,
